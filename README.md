@@ -49,3 +49,9 @@
 	- Add new button for wemos d1 mini
 		- `html += "<br/><p><a href=\"/payload2\">Send payload2 (1 0 1 1 1)</a></p>";`
 	- Create a new function for pro-micro
+
+- ## Connections
+
+	<p align="center">
+		<img src="README_SRC/Sketch.png" width="500">
+	</p>
