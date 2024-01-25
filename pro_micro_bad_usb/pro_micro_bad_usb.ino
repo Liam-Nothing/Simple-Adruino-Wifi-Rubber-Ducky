@@ -21,6 +21,29 @@ void run_payload1(){
   Keyboard.write(KEY_RETURN);
 }
 
+// Windows rickroll
+void run_payload2(){
+  delay(500);
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+  delay(200);
+  Keyboard.print(F("https://youtu.be/dQw4w9WgXcQ"));
+  Keyboard.write(KEY_RETURN);
+}
+
+// Linux rickroll
+void run_payload3(){
+  delay(500);
+  Keyboard.press(KEY_LEFT_CTRL);
+  Keyboard.press(KEY_LEFT_ALT);
+  Keyboard.press('t');
+  Keyboard.releaseAll();
+  delay(200);
+  Keyboard.print(F("xdg-open https://youtu.be/dQw4w9WgXcQ"));
+  Keyboard.write(KEY_RETURN);
+}
+
 void setup() {
   Keyboard.begin(KeyboardLayout_fr_FR);
   for (int i = 0; i < numPins; i++) {
@@ -30,6 +53,17 @@ void setup() {
 }
 
 void loop() {
+  bool pattern10011 = digitalRead(pins[0]) == HIGH &&
+                      digitalRead(pins[1]) == LOW && 
+                      digitalRead(pins[2]) == LOW &&
+                      digitalRead(pins[3]) == HIGH && 
+                      digitalRead(pins[4]) == HIGH;
+
+  bool pattern10010 = digitalRead(pins[0]) == HIGH && digitalRead(pins[1]) == LOW && 
+                      digitalRead(pins[2]) == LOW && digitalRead(pins[3]) == HIGH && 
+                      digitalRead(pins[4]) == LOW;
+
+
   for (int i = 0; i < numPins; i++) {
     int state = digitalRead(pins[i]);
     Serial.print(state);
@@ -48,7 +82,14 @@ void loop() {
   if (allHigh) {
     run_payload1();
     delay(2000);
+  } else if (pattern10011) {
+    run_payload2();
+    delay(2000);
+  } else if (pattern10010) {
+    run_payload3();
+    delay(2000);
   }
+
 
   delay(100);
 }
