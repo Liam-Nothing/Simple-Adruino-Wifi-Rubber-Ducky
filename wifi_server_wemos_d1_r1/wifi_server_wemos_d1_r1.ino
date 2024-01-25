@@ -15,6 +15,8 @@ unsigned int numClients = 0;
 void handleRoot() {
   String html = "<h1>You are connected</h1>";
   html += "<p><a href=\"/payload1\">Send payload1 (1 1 1 1 1)</a></p>";
+  html += "<p><a href=\"/payload2\">Send payload2 (1 0 0 1 1)</a></p>";
+  html += "<p><a href=\"/payload3\">Send payload3 (1 0 0 1 0)</a></p>";
   server.send(200, "text/html", html);
 }
 
@@ -27,6 +29,44 @@ void handlePayload1() {
   html += "<meta http-equiv='refresh' content='2;url=/'></head>";
   html += "<body><h1>Waiting...</h1></body></html>";
   server.send(200, "text/html", html);
+  delay(200);
+  for (int i = 0; i < numAdditionalPins; i++) {
+    digitalWrite(additionalPins[i], LOW);
+  }
+}
+
+void handlePayload2() {
+  digitalWrite(additionalPins[0], HIGH);
+  digitalWrite(additionalPins[1], LOW);
+  digitalWrite(additionalPins[2], LOW);
+  digitalWrite(additionalPins[3], HIGH);
+  digitalWrite(additionalPins[4], HIGH);
+
+  Serial.println("PAYLOAD2");
+  String html = "<html><head>";
+  html += "<meta http-equiv='refresh' content='2;url=/'></head>";
+  html += "<body><h1>Payload 2 Activated</h1></body></html>";
+  server.send(200, "text/html", html);
+
+  delay(200);
+  for (int i = 0; i < numAdditionalPins; i++) {
+    digitalWrite(additionalPins[i], LOW);
+  }
+}
+
+void handlePayload3() {
+  digitalWrite(additionalPins[0], HIGH);
+  digitalWrite(additionalPins[1], LOW);
+  digitalWrite(additionalPins[2], LOW);
+  digitalWrite(additionalPins[3], HIGH);
+  digitalWrite(additionalPins[4], LOW);
+
+  Serial.println("PAYLOAD3");
+  String html = "<html><head>";
+  html += "<meta http-equiv='refresh' content='2;url=/'></head>";
+  html += "<body><h1>Payload 3 Activated</h1></body></html>";
+  server.send(200, "text/html", html);
+
   delay(200);
   for (int i = 0; i < numAdditionalPins; i++) {
     digitalWrite(additionalPins[i], LOW);
@@ -50,6 +90,8 @@ void setup() {
   Serial.println(myIP);
   server.on("/", handleRoot);
   server.on("/payload1", handlePayload1);
+  server.on("/payload2", handlePayload2);
+  server.on("/payload3", handlePayload3);
   server.begin();
 }
 
