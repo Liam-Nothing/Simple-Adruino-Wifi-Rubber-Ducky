@@ -39,7 +39,7 @@ void run_payload3(){
   Keyboard.press(KEY_LEFT_ALT);
   Keyboard.press('t');
   Keyboard.releaseAll();
-  delay(200);
+  delay(1500);
   Keyboard.print(F("xdg-open https://youtu.be/dQw4w9WgXcQ"));
   Keyboard.write(KEY_RETURN);
 }
